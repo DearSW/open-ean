@@ -1,0 +1,71 @@
+
+
+:host ::ng-deep .ant-layout-header {
+    background: #FFEB3B;
+    box-shadow: -2px -5px 20px 8px #bdbaba;
+    z-index: 3;
+}
+
+:host ::ng-deep .ant-layout-content {
+    background: #fbfbfb;
+    color: #fff;
+    min-height: 440px;
+    line-height: 120px;
+}
+
+:host ::ng-deep .ant-layout-footer {
+    background: #fbfbfb;
+    color: #0a0a0a;
+}
+
+:host ::ng-deep .ant-layout-footer {
+    line-height: 1.5;
+}
+
+:host>.ant-layout {
+    text-align: center;
+}
+
+.my-header-title {
+    color: #101010;
+    font-size: 30px;
+}
+
+.my-nz-avatar {
+    width: 80px;
+    height: 80px;
+}
+
+:host ::ng-deep .ant-select-selection--single {
+    height: 32px;
+    padding-top: 3px;
+}
+
+.my-parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.my-parallax-bg.top {
+    margin-top: 64px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.my-footer-logo {
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    transform: translate(-50%, -50%);
+}
