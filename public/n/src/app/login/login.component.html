@@ -1,0 +1,354 @@
+<!-- 布局 -->
+<nz-layout>
+
+    <!-- 上道 -->
+    <nz-header>
+        <div nz-row>
+            <div nz-col >
+                    <!-- <nz-input [nzType]="'search'" [nzSize]="'large'" [nzPlaceHolder]="'输入相关信息进行搜索'" [(ngModel)]="_value" style="width: 200px;" (nzOnSearch)="onSearch($event)"></nz-input> -->
+                    <span class="my-header-title">@ EAN系统</span>
+            </div>
+        </div>
+    </nz-header>
+
+    <!-- 中道 -->
+    <nz-content>
+
+        <div>
+
+            <!-- 1 -->
+            <div nz-row [nzType]="'flex'" [nzJustify]="'center'" [nzAlign]="'middle'" style="line-height: 5;">
+                <div nz-col [nzSpan]="4" style="padding-top: 30px;">
+                    <!-- @Logo -->
+                    <nz-avatar nzShape="square" class="my-nz-avatar" nzSrc="/assets/imgs/logo.jpg" nzIcon="user" nzSize="large" [ngStyle]="{'background-color':color}" (click)="change()"></nz-avatar>
+                </div>
+            </div>
+
+            <!-- 2 -->
+            <div [hidden]="!login" [@flyInOut]="'active'">
+
+                <div nz-row [nzType]="'flex'" [nzJustify]="'center'">
+                        <div nz-col [nzXs]="20" [nzSm]="20" [nzMd]="16" [nzLg]="16" >
+
+                            <!-- @注册表单 -->
+                            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)" novalidate>
+
+                                <div nz-form-item nz-row [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                        <nz-input formControlName="userName" [nzType]="'text'" [nzPlaceHolder]="'请输入用户名'" [nzSize]="'large'">
+                                                <ng-template #prefix>
+                                                    <i class="anticon anticon-user"></i>
+                                                </ng-template>
+                                        </nz-input>
+                                        <div nz-form-explain *ngIf="getFormControl('userName').dirty&&getFormControl('userName').hasError('required')">请输入用户名</div>
+                                        <div nz-form-explain *ngIf="getFormControl('userName').dirty&&getFormControl('userName').hasError('duplicated')">该用户名非法</div>
+                                        <div nz-form-explain *ngIf="getFormControl('userName').dirty&&getFormControl('userName').pending">检测中...</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                        <nz-input formControlName="email" [nzPlaceHolder]="'邮箱'" [nzType]="'email'" [nzSize]="'large'">
+                                            <ng-template #prefix>
+                                                <i class="anticon anticon-mail"></i>
+                                            </ng-template>
+                                        </nz-input>
+                                        <div nz-form-explain *ngIf="getFormControl('email').dirty&&getFormControl('email').hasError('email')">邮箱格式不合法</div>
+                                        <div nz-form-explain *ngIf="getFormControl('email').dirty&&getFormControl('email').hasError('required')">请输入邮箱</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control>
+                                        <nz-datepicker formControlName="birthDay" [nzSize]="'large'" [nzPlaceHolder]="'生日'" style="width: 100%;">
+                                            <ng-template #prefix>
+                                                    <i class="anticon anticon-smile-o"></i>
+                                            </ng-template>
+                                        </nz-datepicker>
+                                        <div nz-form-explain *ngIf="getFormControl('birthDay').dirty&&getFormControl('birthDay').hasError('required')">请输入你的生日</div>
+                                        <div nz-form-explain *ngIf="getFormControl('birthDay').dirty&&getFormControl('birthDay').hasError('expired')">生日输入不合法</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback [nzValidateStatus]="validateForm.controls['phoneNumber']">
+                                            <nz-input-group [nzSize]="'large'" [nzCompact]="'true'" [nzSize]="'large'">
+                                                    <nz-select formControlName="phoneNumberPrefix" style="width: 35%;">
+                                                      <nz-option [nzLabel]="'+86'" [nzValue]="'+86'"></nz-option>
+                                                      <nz-option [nzLabel]="'+87'" [nzValue]="'+87'"></nz-option>
+                                                    </nz-select>
+                                                    <input placeholder="电话号码" nz-input formControlName="phoneNumber" id="'phoneNumber'" style="width: 65%;height: 32px;">
+                                            </nz-input-group>
+                                            <div nz-form-explain *ngIf="getFormControl('phoneNumber').dirty&&getFormControl('phoneNumber').hasError('required')">请输入电话号码</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                            <div nz-row [nzGutter]="8">
+                                                <div nz-col  [nzXs]="12" [nzSm]="12" [nzMd]="14" [nzLg]="14" >
+                                                    <nz-input [nzSize]="'large'" formControlName="captcha" [nzId]="'captcha'" [nzPlaceHolder]="'验证码'" style="width: 100%;"></nz-input>
+                                                </div>
+                                                <div nz-col  [nzXs]="12" [nzSm]="12" [nzMd]="10" [nzLg]="10">
+                                                    <nz-tooltip>
+                                                        <button nz-button nz-tooltip [nzSize]="'large'" (click)="getCaptcha($event)" style="width: 100%;text-overflow: ellipsis;overflow: hidden;" [disabled]="verificationTxtCode">
+                                                            <span *ngIf="!verificationTxtCode">获取验证码</span>
+                                                            <span *ngIf="verificationTxtCode">{{verificationCodeCount}}</span>
+                                                        </button>
+                                                        <ng-template #nzTemplate>
+                                                            <i class="anticon anticon-exclamation-circle"></i>
+                                                            <span>务必先输入电话号码</span>
+                                                        </ng-template>
+                                                        <!-- <ng-template #nzTemplate *ngIf="verificationTxtCode">
+                                                            <i class="anticon anticon-clock-circle-o"></i>
+                                                            <span>获取验证中...</span>
+                                                        </ng-template> -->
+                                                    </nz-tooltip>
+                                                </div>
+                                            </div>
+                                            <div nz-form-explain *ngIf="getFormControl('captcha').dirty&&getFormControl('captcha').hasError('required')">请输入验证码</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                        <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                            <nz-input formControlName="password" [nzPlaceHolder]="'密码'" [nzType]="'password'" [nzSize]="'large'" (ngModelChange)="validateConfirmPassword()">
+                                                <ng-template #prefix>
+                                                        <i class="anticon anticon-lock"></i>
+                                                </ng-template>
+                                            </nz-input>
+                                            <div nz-form-explain *ngIf="getFormControl('password').dirty&&getFormControl('password').hasError('required')">请输入密码</div>
+                                        </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                        <nz-input formControlName="passwordConfirmation" [nzType]="'password'" [nzPlaceHolder]="'确认密码'" [nzSize]="'large'">
+                                                <ng-template #prefix>
+                                                        <i class="anticon anticon-lock"></i>
+                                                </ng-template>
+                                        </nz-input>
+                                        <div nz-form-explain *ngIf="getFormControl('passwordConfirmation').dirty&&getFormControl('passwordConfirmation').hasError('required')">请确认你的密码</div>
+                                        <div nz-form-explain *ngIf="getFormControl('passwordConfirmation').dirty&&getFormControl('passwordConfirmation').hasError('confirm')">密码不一致</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control>
+                                        <nz-input formControlName="comment" [nzRows]="1" [nzType]="'textarea'" [nzPlaceHolder]="'留下几句话吧'" [nzSize]="'large'">
+                                            <ng-template #prefix>
+                                                    <i class="anticon anticon-message"></i>
+                                            </ng-template>
+                                        </nz-input>
+                                        <div nz-form-explain *ngIf="getFormControl('comment').dirty&&getFormControl('comment').hasError('required')">请输入简介</div>
+                                    </div>
+                                </div>
+
+                                <!-- <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control style="text-align: left;">
+                                        <nz-switch formControlName="term" [nzSize]="'small'" [ngModel]="term" [(ngModel)]="termIsReaded"></nz-switch>
+                                        <span>已阅读并同意<a>条款</a></span>
+                                    </div>
+                                </div> -->
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control style="text-align: left;">
+                                        <label nz-checkbox formControlName="term" [(ngModel)]="termIsReaded">
+                                            <span>已阅读并同意<a>条款</a></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control>
+                                            <div nz-row [nzGutter]="8">
+                                                    <div nz-col [nzSpan]="18">
+                                                        <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm.valid" [style.width]="'100%'" >注册</button>
+                                                    </div>
+                                                    <div nz-col [nzSpan]="6">
+                                                        <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="resetForm($event)" style="width: 100%">重置</button>
+                                                    </div>
+                                                    <div nz-col [nzSpan]="24" style="text-align: left;">
+                                                            Or
+                                                            <a (click)="loginOrRegister()">注册完毕或已有账号？进行登录</a>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                </div>
+
+            </div>
+
+
+            <!-- 3 -->
+
+            <div [hidden]="login" [@flyInOut]="'active'">
+
+                <div  nz-row [nzType]="'flex'" [nzJustify]="'center'" >
+                    <div nz-col  [nzXs]="20" [nzSm]="20" [nzMd]="16" [nzLg]="16">
+
+                            <!-- @登录表单 -->
+                            <form nz-form [formGroup]="validateForm2" (ngSubmit)="submitForm($event,validateForm2.value)" novalidate>
+
+                                <div nz-form-item nz-row [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                        <nz-input formControlName="userName2" [nzType]="'text'" [nzPlaceHolder]="'请输入用户名'" [nzSize]="'large'">
+                                                <ng-template #prefix>
+                                                    <i class="anticon anticon-user"></i>
+                                                </ng-template>
+                                        </nz-input>
+                                        <div nz-form-explain *ngIf="getFormControl2('userName2').dirty&&getFormControl2('userName2').hasError('required')">请输入用户名</div>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                        <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
+                                            <nz-input formControlName="password2" [nzPlaceHolder]="'密码'" [nzType]="'password'" [nzSize]="'large'">
+                                                <ng-template #prefix>
+                                                        <i class="anticon anticon-lock"></i>
+                                                </ng-template>
+                                            </nz-input>
+                                            <div nz-form-explain *ngIf="getFormControl2('password2').dirty&&getFormControl2('password2').hasError('required')">请输入密码</div>
+                                        </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control style="text-align: left;">
+                                        <label nz-checkbox formControlName="keepAct">
+                                            <span>记住<a>账号</a></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div nz-form-item nz-row  [nzType]="'flex'" [nzJustify]="'center'">
+                                    <div nz-col [nzSpan]="12" nz-form-control>
+                                            <div nz-row>
+                                                    <div nz-col [nzSpan]="24">
+                                                        <button nz-button [nzType]="'primary'" [nzSize]="'large'" [disabled]="!validateForm2.valid" [style.width]="'100%'" >登录</button>
+                                                    </div>
+                                                    <div nz-col [nzSpan]="24" style="text-align: left;">
+                                                            Or
+                                                            <a (click)="loginOrRegister()">没有账号？进行注册</a>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+
+                           </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </nz-content>
+
+    <!-- 下道 -->
+    <nz-footer style="position: relative;padding:0;">
+
+        <div class="my-parallax-bg top" style="margin: 0;">
+            <svg width="1440px" style="height: auto;" viewBox="0 0 1440 557" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g style="transform: translate(0px, -131.318px);">
+                    <circle id="Oval-8" stroke="#13C2C2" cx="530" cy="195" r="5"></circle>
+                </g>
+                <g style="transform: translate(0px, -84.6583px);">
+                    <circle id="Oval-8" fill-opacity="0.4" fill="#9EE6E6" cx="606" cy="76" r="3"></circle>
+                </g>
+                <g style="transform: translate(0px, -222.041px);">
+                    <circle id="Oval-8" stroke="#13C2C2" cx="165" cy="540" r="5"></circle>
+                </g>
+                <g style="transform: translate(0px, -228.242px);">
+                    <circle id="Oval-8" stroke="#CED4D9" cx="701.5" cy="650" r="3.5"></circle>
+                </g>
+                <g style="transform: translate(0px, -40.508px);">
+                    <circle id="Oval-8" stroke="#833884" cx="526.5" cy="381.5" r="3.5"></circle>
+                </g>
+                <g style="transform: translate(0px, -64.6902px);">
+                    <circle id="Oval-8" fill-opacity="0.4" fill="#277485" cx="944" cy="251" r="5"></circle>
+                </g>
+                <g style="transform: translate(0px, -10.6902px);">
+                    <circle id="Oval-8" fill-opacity="0.4" fill="#9EE6E6" cx="904" cy="201" r="6"></circle>
+                </g>
+                <g style="transform: translate(0px, -164.6902px);">
+                    <circle id="Oval-8" fill-opacity="0.4" fill="#9EE126" cx="844" cy="351" r="4"></circle>
+                </g>
+                <g style="transform: translate(0px, -264.6902px);">
+                    <circle id="Oval-8" fill-opacity="0.4" fill="#9E3216" cx="804" cy="291" r="5.5"></circle>
+                </g>
+                <g style="transform: translate(0px, -206.098px);">
+                    <g transform="translate(0, 180)">
+                        <path d="M1182.79367,448.230356 L1186.00213,453.787581 C1186.55442,454.744166 1186.22667,455.967347 1185.27008,456.519632 C1184.96604,456.695168 1184.62116,456.787581 1184.27008,456.787581 L1177.85315,456.787581 C1176.74858,456.787581 1175.85315,455.89215 1175.85315,454.787581 C1175.85315,454.436507 1175.94556,454.091619 1176.1211,453.787581 L1179.32957,448.230356 C1179.88185,447.273771 1181.10503,446.946021 1182.06162,447.498305 C1182.36566,447.673842 1182.61813,447.926318 1182.79367,448.230356 Z"
+                            id="Polygon-2" stroke="#CED4D9" transform="translate(1181.061784, 452.008801) rotate(40.000000) translate(-1181.061784, -452.008801) "></path>
+                    </g>
+                </g>
+                <g style="transform: translate(0px, -171.541px);">
+                    <g transform="translate(0, 100)">
+                        <path d="M1376.79367,204.230356 L1380.00213,209.787581 C1380.55442,210.744166 1380.22667,211.967347 1379.27008,212.519632 C1378.96604,212.695168 1378.62116,212.787581 1378.27008,212.787581 L1371.85315,212.787581 C1370.74858,212.787581 1369.85315,211.89215 1369.85315,210.787581 C1369.85315,210.436507 1369.94556,210.091619 1370.1211,209.787581 L1373.32957,204.230356 C1373.88185,203.273771 1375.10503,202.946021 1376.06162,203.498305 C1376.36566,203.673842 1376.61813,203.926318 1376.79367,204.230356 Z"
+                            id="Polygon-2" stroke="#2F54EB" transform="translate(1375.061784, 208.008801) rotate(40.000000) translate(-1375.061784, -208.008801) "></path>
+                    </g>
+                </g>
+                <g style="transform: translate(0px, -156.537px);">
+                    <rect id="Rectangle-14" stroke-opacity="0.4" stroke="#1D39C4" transform="translate(949.801502, 129.801502) rotate(30.000000) translate(-949.801502, -129.801502) "
+                        x="942.626304" y="222.626304" width="14.3503946" height="14.3503946" rx="1"></rect>
+                </g>
+                <g style="transform: translate(0px, -136.441px);">
+                    <rect id="Rectangle-14" stroke="#CED4D9" transform="translate(111.673081, 158.673081) rotate(30.000000) translate(-111.673081, -158.673081) "
+                        x="107.288047" y="254.288047" width="8.77006914" height="8.77006914" rx="1"></rect>
+                </g>
+                <g style="transform: translate(0px, -144.572px);">
+                    <g transform="translate(-79.000000, -21.000000)">
+                        <circle id="Oval-13" stroke="none" fill="#EBEDF0" fill-rule="evenodd" cx="98.5" cy="698.5" r="98.5"></circle>
+                        <rect id="Rectangle-33" stroke="none" fill="#EBEDF0" fill-rule="evenodd" transform="translate(1261.132034, 1217.132034) rotate(45.000000) translate(-1261.132034, -1217.132034) "
+                            x="211.13203" y="300.13203" width="300" height="300" rx="1"></rect>
+                        <circle id="Oval-13" stroke="#EBEDF0" stroke-width="16" fill="none" cx="1402" cy="351" r="70"></circle>
+                        <path d="M385.032144,960.394832 L394.316344,976.475539 C394.868629,977.432124 394.540879,978.655305 393.584293,979.20759 C393.280255,979.383126 392.935367,979.475539 392.584293,979.475539 L374.015893,979.475539 C372.911323,979.475539 372.015893,978.580108 372.015893,977.475539 C372.015893,977.124466 372.108305,976.779577 372.283842,976.475539 L381.568042,960.394832 C382.120327,959.438247 383.343508,959.110497 384.300093,959.662781 C384.604131,959.838318 384.856607,960.090794 385.032144,960.394832 Z"
+                            id="Polygon-2" stroke="none" fill="#A3B1BF" fill-rule="evenodd" transform="translate(383.300093, 370.709623) rotate(70.000000) translate(-383.300093, -370.709623) "></path>
+                        <path d="M545.537489,211.431472 L552.545207,223.569196 C553.097492,224.525781 552.769741,225.748962 551.813156,226.301246 C551.509118,226.476783 551.164229,226.569196 550.813156,226.569196 L536.79772,226.569196 C535.693151,226.569196 534.79772,225.673765 534.79772,224.569196 C534.79772,224.218122 534.890133,223.873234 535.06567,223.569196 L542.073387,211.431472 C542.625672,210.474887 543.848853,210.147137 544.805438,210.699421 C545.109477,210.874958 545.361952,211.127434 545.537489,211.431472 Z"
+                            id="Polygon-2" stroke="none" fill="#A3B1BF" fill-rule="evenodd" transform="translate(343.805605, 218.500167) rotate(90.000000) translate(-343.805605, -218.500167) "></path>
+                        <g id="Group-26" transform="translate(146.000000, 338.000000)" fill="#FADB14">
+                            <image xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://gw.alipayobjects.com/zos/rmsportal/UtBesTOkoZsBUxPqfDlZ.svg"></image>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <div>
+
+                <canvas class="mycanvas" width="1200" height="400" style="margin: 0;width: 100%;">
+                        您的浏览器不支持canvas
+                </canvas>
+                <img src="/assets/bg/ean_4.png" style="display:none">
+                <img src="/assets/bg/ean_2.png" style="display:none">
+                <img src="/assets/bg/ean_1.png" style="display:none">
+                <img src="/assets/bg/ean_3.png" style="display:none">
+                <img src="/assets/bg/ean_5.png" style="display:none">
+
+        </div>
+
+        <div  nz-row [nzType]="'flex'" class="my-footer-logo">
+            <div nz-col cla>
+                @tengzhaowei
+            </div>
+        </div>
+
+    </nz-footer>
+
+</nz-layout>
+
+
+
+
+
+
+<!-- @备注 1、[hidden] 和 网格布局的 [nzType] 放在一个div中有bug。原因：display会因为优先级的机制导致覆盖。解决：新建一个容器div，将他们分开。-->
+<!-- @备注 2、ng-zorro-antd的版本号没有下载正确，导致出现了很多bug，Angular5对应ng-zorro-antd 0.6.x，npm install 时 加上 @latest -->
+<!-- @备注 3、在表单里面，我们只使用大尺寸的输入框。-->
+<!-- @备注 4、nz-col 下面可以继续嵌套 nz-row, -->
+

@@ -1,0 +1,32 @@
+import { ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
+import { NzRadioGroupComponent } from './nz-radio-group.component';
+export declare class NzRadioComponent implements OnInit, ControlValueAccessor {
+    private _elementRef;
+    _renderer: Renderer2;
+    _nzRadioGroup: NzRadioGroupComponent;
+    private _focused;
+    _checked: boolean;
+    _disabled: boolean;
+    _el: HTMLElement;
+    _classMap: any;
+    _value: string;
+    _prefixCls: string;
+    _innerPrefixCls: string;
+    _inputPrefixCls: string;
+    onChange: (_: boolean) => void;
+    onTouched: () => void;
+    nzChecked: boolean;
+    nzValue: string;
+    nzDisabled: boolean;
+    onClick(e: MouseEvent): void;
+    nzFocus(): void;
+    nzBlur(): void;
+    setClassMap(): void;
+    constructor(_elementRef: ElementRef, _renderer: Renderer2, _nzRadioGroup: NzRadioGroupComponent);
+    ngOnInit(): void;
+    updateValue(value: boolean): void;
+    writeValue(value: boolean): void;
+    registerOnChange(fn: (_: boolean) => {}): void;
+    registerOnTouched(fn: () => {}): void;
+}

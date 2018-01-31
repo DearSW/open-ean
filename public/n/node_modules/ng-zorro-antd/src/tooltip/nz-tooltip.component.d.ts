@@ -1,0 +1,37 @@
+import { AnimationEvent } from '@angular/animations';
+import { ConnectedOverlayDirective, ConnectedOverlayPositionChange, ConnectionPositionPair, OverlayOrigin } from '@angular/cdk/overlay';
+import { ChangeDetectorRef, EventEmitter, TemplateRef } from '@angular/core';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+export declare class NzToolTipComponent {
+    private _cdr;
+    _hasBackdrop: boolean;
+    nzTitle: string;
+    nzOverlayClassName: string;
+    nzOverlayStyle: {};
+    nzMouseEnterDelay: number;
+    nzMouseLeaveDelay: number;
+    nzVisibleChange: EventEmitter<boolean>;
+    nzTemplate: TemplateRef<void>;
+    overlay: ConnectedOverlayDirective;
+    overlayOrigin: OverlayOrigin;
+    nzVisible: boolean;
+    visibleSource: BehaviorSubject<boolean>;
+    visible$: Observable<boolean>;
+    nzTrigger: string;
+    _prefix: string;
+    _positions: ConnectionPositionPair[];
+    _classMap: {};
+    _placement: string;
+    _trigger: string;
+    nzPlacement: string;
+    updatePosition(): void;
+    onPositionChange($event: ConnectedOverlayPositionChange): void;
+    show(): void;
+    hide(): void;
+    _afterVisibilityAnimation(e: AnimationEvent): void;
+    setClassMap(): void;
+    setOverlayOrigin(origin: OverlayOrigin): void;
+    constructor(_cdr: ChangeDetectorRef);
+    private isContentEmpty();
+}

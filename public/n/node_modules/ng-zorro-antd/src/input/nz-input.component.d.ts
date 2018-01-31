@@ -1,0 +1,55 @@
+import { AfterContentInit, AfterViewInit, ElementRef, EventEmitter, Renderer2, TemplateRef } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
+export interface AutoSizeType {
+    minRows?: number;
+    maxRows?: number;
+}
+export declare class NzInputComponent implements AfterContentInit, ControlValueAccessor, AfterViewInit {
+    private _elementRef;
+    private _renderer;
+    private _disabled;
+    private _readonly;
+    _el: HTMLElement;
+    _value: string;
+    _size: string;
+    _prefixCls: string;
+    _composing: boolean;
+    _classMap: any;
+    _autosize: boolean | AutoSizeType;
+    onChange: (value: string) => void;
+    onTouched: () => void;
+    nzPlaceHolder: string;
+    nzType: string;
+    nzId: string;
+    nzRows: number;
+    nzCols: number;
+    nzSize: string;
+    nzDisabled: boolean;
+    nzReadonly: boolean;
+    nzAutosize: string | boolean | AutoSizeType;
+    nzBlur: EventEmitter<FocusEvent>;
+    nzFocus: EventEmitter<FocusEvent>;
+    nzOnSearch: EventEmitter<string>;
+    textAreaRef: ElementRef;
+    _addOnContentBefore: TemplateRef<void>;
+    _addOnContentAfter: TemplateRef<void>;
+    _prefixContent: TemplateRef<void>;
+    _suffixContent: TemplateRef<void>;
+    compositionStart(e: CompositionEvent): void;
+    compositionEnd(e: CompositionEvent): void;
+    nzValue: string;
+    _emitBlur($event: FocusEvent): void;
+    _emitFocus($event: FocusEvent): void;
+    _onPressEnter(): void;
+    _emitSearch(): void;
+    setClassMap(): void;
+    resizeTextarea(): void;
+    textareaOnChange(): void;
+    constructor(_elementRef: ElementRef, _renderer: Renderer2);
+    ngAfterContentInit(): void;
+    ngAfterViewInit(): void;
+    writeValue(value: string): void;
+    registerOnChange(fn: (_: string) => void): void;
+    registerOnTouched(fn: () => void): void;
+    setDisabledState(isDisabled: boolean): void;
+}

@@ -1,0 +1,33 @@
+import { OnInit } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
+export declare class NzRateComponent implements OnInit, ControlValueAccessor {
+    private _hasHalf;
+    private _allowHalf;
+    private _disabled;
+    _prefixCls: string;
+    _innerPrefixCls: string;
+    _classMap: any;
+    _starArray: number[];
+    _count: number;
+    _value: number;
+    _hoverValue: number;
+    _floatReg: RegExp;
+    onChange: (value: number) => void;
+    onTouched: () => void;
+    nzCount: number;
+    nzAllowHalf: boolean;
+    nzDefaultValue: number;
+    nzValue: number;
+    nzDisabled: boolean;
+    setClassMap(): void;
+    setChildrenClassMap(): void;
+    _clickRate(e: MouseEvent, index: number, isFull: boolean): void;
+    _hoverRate(e: MouseEvent, index: number, isFull: boolean): void;
+    _leaveRate(e: MouseEvent): void;
+    setClasses(i: number): object;
+    writeValue(value: number | null): void;
+    registerOnChange(fn: (_: number) => void): void;
+    registerOnTouched(fn: () => void): void;
+    setDisabledState(isDisabled: boolean): void;
+    ngOnInit(): void;
+}

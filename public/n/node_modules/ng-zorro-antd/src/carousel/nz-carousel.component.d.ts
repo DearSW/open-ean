@@ -1,0 +1,45 @@
+import { AfterViewInit, ElementRef, EventEmitter, OnDestroy, QueryList, Renderer2 } from '@angular/core';
+import { NzCarouselContentDirective } from './nz-carousel-content.directive';
+export declare class NzCarouselComponent implements AfterViewInit, OnDestroy {
+    hostElement: ElementRef;
+    private _renderer;
+    private _autoPlay;
+    private _dots;
+    private _vertical;
+    private _pauseOnHover;
+    activeIndex: number;
+    transform: string;
+    interval: any;
+    slideContents: QueryList<NzCarouselContentDirective>;
+    _autoPlaySpeed: number;
+    _mouseHover: boolean;
+    _slideContents: QueryList<NzCarouselContentDirective>;
+    slickList: ElementRef;
+    slickTrack: ElementRef;
+    _nzCarousel: boolean;
+    nzEffect: string;
+    nzAfterChange: EventEmitter<number>;
+    nzBeforeChange: EventEmitter<{
+        form: number;
+        to: number;
+    }>;
+    nzAutoPlaySpeed: number;
+    _onMouseenter(): void;
+    _onMouseleave(): void;
+    readonly _nextIndex: number;
+    readonly _prevIndex: number;
+    nzPauseOnHover: boolean;
+    nzDots: boolean;
+    nzAutoPlay: boolean;
+    nzVertical: boolean;
+    constructor(hostElement: ElementRef, _renderer: Renderer2);
+    setActive(content: NzCarouselContentDirective, i: number): void;
+    ngAfterViewInit(): void;
+    renderContent(): void;
+    createInterval(): void;
+    clearInterval(): void;
+    nzSlickNext(): void;
+    nzSlickPrev(): void;
+    nzSlickGoTo(index: number): void;
+    ngOnDestroy(): void;
+}
