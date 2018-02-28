@@ -1,16 +1,20 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# compiled output
+# git的忽略文件，使用git提交更新时，过滤掉某些不需要提交的文件或者目录
+
+# compiled output 编译输出类目录
 /dist
 /tmp
 /out-tsc
+**/tmp
+**/out-tsc
+**/dist
 
-# dependencies
+# dependencies 项目依赖类目录
 /node_modules
-/public/n/node_modules
 **/node_modules
 
-# IDEs and editors
+# IDEs and editors 编辑器和IDE环境的配置目录
 /.idea
 .project
 .classpath
@@ -19,14 +23,14 @@
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
+# IDE - VSCode VScode本身的默认目录
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# misc
+# misc 配置生成目录
 /.sass-cache
 /connect.lock
 /coverage
@@ -35,10 +39,12 @@ npm-debug.log
 testem.log
 /typings
 
-# e2e
+# e2e 端到端测试目录
 /e2e/*.js
 /e2e/*.map
+**/e2e/*.js
+**/e2e/*.map
 
-# System Files
+# System Files 电脑系统的默认配置目录
 .DS_Store
 Thumbs.db

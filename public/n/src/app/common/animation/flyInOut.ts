@@ -1,6 +1,6 @@
 
 // @导入动画需要的方法
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations'
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 export const flyInOut =  trigger('flyInOut', [
 
@@ -25,4 +25,4 @@ export const flyInOut =  trigger('flyInOut', [
         ]))
     ])
 
-])
+]);

@@ -33,9 +33,9 @@ export class LoginGuard implements CanLoad {
     // @ CanLoad 守卫
     canLoad(route: Route): boolean {
 
-        console.log("CanLoad登录路由守卫：打印参数详情");
+        console.log('CanLoad登录路由守卫：打印参数详情');
         console.log(route);
-        let url = `/${route.path}`;
+        const url = `/${route.path}`;
 
         return this.checkLogin(url);
 
@@ -55,7 +55,7 @@ export class LoginGuard implements CanLoad {
             this.loginService.redirectUrl = url;
 
             // @路由导航的额外参数携带变量
-            let navigationExtras: NavigationExtras = {
+            const navigationExtras: NavigationExtras = {
                 // queryParams: { 'session_id': sessionId },
                 // fragment: 'anchor'
             };

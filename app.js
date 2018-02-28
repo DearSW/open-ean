@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressJwt = require('express-jwt');
 
 // @+ 为你的网站开启 gzip 压缩功能（nodejs、nginx）
 // @通过 gzip / deflate 压缩响应数据，这个compression中间件应该放置在所有的中间件最前面以保证所有的返回都是被压缩的
@@ -49,19 +50,29 @@ const expressStaticOptions = {
 	etag: false,
 	extensions: ['css', 'png', 'gif', 'jpg', 'js', 'html'],
 	// index: true,
-	maxAge: '1800000', // @0.5小时
+	maxAge: '1800', // @0.5小时
 	redirect: true,
 	setHeaders: function (res, path, stat) {
 		// res.set('x-timestamp', Date.now());
 		// res.setHeader("Cache-Control","no-cache");				
-		res.setHeader("Cache-Control", "public, max-age=1800000");
+		res.setHeader("Cache-Control", "public, max-age=1800");
 	}
 };
-app.use( express.static( path.join(__dirname, 'public'), expressStaticOptions) );
+app.use( express.static( path.join(__dirname, 'public/n/dist')) );
+
+// @jwt处理
+app.use(expressJwt({secret: 'secret'}).unless({path: ['/login']}));
 
 // @路由
 app.use('/', index);
 app.use('/users', users);
+
+// @jwt认证错误的处理
+app.use(function (err, req, res, next) {
+	if (err.name === 'UnauthorizedError') {
+		res.status(401).send('invalid token...');
+	}
+});
 
 // @catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -82,3 +93,10 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+app.set('port', process.env.PORT || '4008');
+app.listen(app.get('port'), function() {
+  console.log('HaHa.......EAN Start at the port: ' + app.get('port'));
+});
+
+// @注意：写端口的时候也不能任意指定，需要使用空闲端口，有些端口被OS与浏览器占据

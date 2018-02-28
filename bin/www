@@ -12,7 +12,8 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '6666');
+ // @注意：写端口的时候也不能任意指定，需要使用空闲端口，有些端口被OS与浏览器占据
+var port = normalizePort(process.env.PORT || '4008');
 app.set('port', port);
 
 /**
