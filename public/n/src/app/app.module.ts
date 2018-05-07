@@ -11,6 +11,9 @@ import { NgModule } from '@angular/core';
 // @导入HttpClient请求模块，ng5推荐
 import { HttpClientModule } from '@angular/common/http';
 
+// @导入路由导航
+import { Router } from '@angular/router';
+
 // @导入Form构建需要的Module，动态Form
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -38,7 +41,7 @@ import { LoginGuard } from './common/guard/login.guard';
 // @登录服务导入
 import { LoginService } from './common/service/login.service';
 
-// @模块装饰器函数
+// @模块注解
 @NgModule({
 
     // @组件声明
@@ -74,4 +77,11 @@ import { LoginService } from './common/service/login.service';
 })
 
 // @导出此模块
-export class AppModule { }
+export class AppModule {
+
+    // @路由审查配置
+    constructor(router: Router) {
+        console.log('@@路由审查：', JSON.stringify(router.config, undefined, 2));
+    }
+
+}

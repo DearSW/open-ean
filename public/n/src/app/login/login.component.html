@@ -25,7 +25,7 @@
             </div>
 
             <!-- 2 -->
-            <div [hidden]="!login" [@flyInOut]="'active'">
+            <div [hidden]="!loginState" [@flyInOut]="'active'">
 
                 <div nz-row [nzType]="'flex'" [nzJustify]="'center'">
                         <div nz-col [nzXs]="20" [nzSm]="20" [nzMd]="16" [nzLg]="16" >
@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div nz-col [nzSpan]="24" style="text-align: left;">
                                                             Or
-                                                            <a (click)="loginOrRegister()">注册完毕或已有账号？进行登录</a>
+                                                            <a (click)="loginOrRegisterChangeView()">注册完毕或已有账号？进行登录</a>
                                                     </div>
                                             </div>
                                     </div>
@@ -186,13 +186,13 @@
 
             <!-- 3 -->
 
-            <div [hidden]="login" [@flyInOut]="'active'">
+            <div [hidden]="loginState" [@flyInOut]="'active'">
 
                 <div  nz-row [nzType]="'flex'" [nzJustify]="'center'" >
                     <div nz-col  [nzXs]="20" [nzSm]="20" [nzMd]="16" [nzLg]="16">
 
                             <!-- @登录表单 -->
-                            <form nz-form [formGroup]="validateForm2" (ngSubmit)="submitForm($event,validateForm2.value)" novalidate>
+                            <form nz-form [formGroup]="validateForm2" (ngSubmit)="submitFormLogin($event,validateForm2.value)" novalidate>
 
                                 <div nz-form-item nz-row [nzType]="'flex'" [nzJustify]="'center'">
                                     <div nz-col [nzSpan]="12" nz-form-control nzHasFeedback>
@@ -232,7 +232,7 @@
                                                     </div>
                                                     <div nz-col [nzSpan]="24" style="text-align: left;">
                                                             Or
-                                                            <a (click)="loginOrRegister()">没有账号？进行注册</a>
+                                                            <a (click)="loginOrRegisterChangeView()">没有账号？进行注册</a>
                                                     </div>
                                             </div>
                                     </div>

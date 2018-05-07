@@ -5,14 +5,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { WorkspaceComponent } from './workspace.component';
 
 const workspaceRoutes: Routes = [
-	{
-		path: '',
-		component: WorkspaceComponent,
-		children: [
+    {
+        path: '',
+        component: WorkspaceComponent,
+        children: [
             { path: '', redirectTo: 'form', pathMatch: 'full' },
-			{ path: 'form', loadChildren: './form/form.module#FormModule' }
-		]
-	}
+            { path: 'form', loadChildren: './form/form.module#FormModule' }
+        ]
+    }
 ];
 
 @NgModule({

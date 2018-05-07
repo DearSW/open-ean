@@ -30,10 +30,11 @@ export class LoginGuard implements CanLoad {
     //     return this.canActivate(next, state);
     // }
 
-    // @ CanLoad 守卫
+    // @ 这是CanLoad 守卫，实现 canLoad 方法
     canLoad(route: Route): boolean {
 
-        console.log('CanLoad登录路由守卫：打印参数详情');
+        // @Route是路由参数，区别于Router
+        console.log('@@CanLoad登录路由守卫开始');
         console.log(route);
         const url = `/${route.path}`;
 
@@ -44,12 +45,19 @@ export class LoginGuard implements CanLoad {
     // @检测登录
     checkLogin(url: string): boolean {
 
+        console.log('@@检测登录开始');
+
+
         if (this.loginService.isLoggedIn) {
 
+            console.log('@@状态已登录');
+
             // this.router.navigate(['login']);
-            return true;
+            return true; // 路由守卫返回true，表示继续导航
 
         } else {
+
+            console.log('@@状态未登录');
 
             // @存储准备前往的URL地址
             this.loginService.redirectUrl = url;
@@ -62,7 +70,9 @@ export class LoginGuard implements CanLoad {
 
             // 导航到登录页面，并携带额外参数
             this.router.navigate(['login'], navigationExtras);
-            return false;
+
+            return true; // @临时测试
+            // return false; // 路由守卫返回false，表示中断导航
 
         }
 

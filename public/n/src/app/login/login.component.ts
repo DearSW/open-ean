@@ -10,12 +10,18 @@ import { Observable } from 'rxjs/Observable';
 
 // @引入ngx-loading-bar服务
 import { LoadingBarService } from '@ngx-loading-bar/core';
+
+// @引入登录服务
+import { LoginService } from '../common/service/login.service';
+
+// @引入动画
 import { flyInOut } from '../common/animation/flyInOut';
 
 // @常量貌似放在这里最好
 const UserList = ['U', 'Lucy', 'Tom', 'Edward'];
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
+// @组件的装饰器函数
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -37,8 +43,8 @@ export class LoginComponent implements OnInit {
 
     color: string;
 
-    // @登录与注册的转化布尔值
-    login = false;
+    // @登录与注册的转化
+    loginState = false;
 
     // @验证码的文本状态、计数器、定时器
     verificationTxtCode = false;
@@ -48,7 +54,7 @@ export class LoginComponent implements OnInit {
     // @条款同意与阅读状态 默认为false
     termIsReaded = false;
 
-    // @视差移动初始化数据
+    // @视差移动banner 初始化数据
     imgData: any = {
         bg: {
             top: 150,
@@ -95,12 +101,12 @@ export class LoginComponent implements OnInit {
     };
     rate_w: any = 0;
     rate_h: any = 0;
-    // @背景图片高度和宽度
+    // @banner 背景图片高度和宽度
     field_width: any = 1200;
     field_height: any = 440;
 
     // @注入服务
-    constructor(private loader: LoadingBarService, private fb: FormBuilder, private el: ElementRef, private renderer2: Renderer2) {
+    constructor(private loginService: LoginService, private loader: LoadingBarService, private fb: FormBuilder, private el: ElementRef, private renderer2: Renderer2) {
 
     }
 
@@ -112,7 +118,7 @@ export class LoginComponent implements OnInit {
         // @头像颜色
         this.color = ColorList[2];
 
-        // @注册表单验证
+        // @注册表单验证 对象
         this.validateForm = this.fb.group({
             userName: [null, [Validators.required], [this.userNameAsyncValidator]],
             email: ['', [this.emailValidator]],
@@ -127,7 +133,7 @@ export class LoginComponent implements OnInit {
             term: [true]
         });
 
-        // @登录表单验证
+        // @登录表单验证 对象
         this.validateForm2 = this.fb.group({
             userName2: ['', [Validators.required]],
             password2: ['', [Validators.required]],
@@ -136,11 +142,9 @@ export class LoginComponent implements OnInit {
 
     }
 
-    // @登录与注册切换视图函数
-    loginOrRegister() {
-        console.log(this.login);
-        this.login = !this.login;
-        console.log(this.login);
+    // @登录与注册视图切换
+    loginOrRegisterChangeView() {
+        this.loginState = !this.loginState;
     }
 
     // @获取验证码
@@ -173,9 +177,10 @@ export class LoginComponent implements OnInit {
         this.renderer2.setStyle(this.el.nativeElement.querySelector('.btn1'), 'width', '200px');
     }
 
-    // @表单提交
+    // @表单提交 注册
     submitForm = ($event, value) => {
         $event.preventDefault();
+        console.log('@@注册');
         for (const key in this.validateForm.controls) {
             if (this.validateForm.controls.hasOwnProperty(key)) {
                 this.validateForm.controls[key].markAsDirty();
@@ -185,9 +190,36 @@ export class LoginComponent implements OnInit {
         console.log(value);
     }
 
+
+    // @表单提交 登录
+    submitFormLogin = ($event, value) => {
+        $event.preventDefault();
+        console.log('@@登录');
+        for (const key in this.validateForm2.controls) {
+            if (this.validateForm2.controls.hasOwnProperty(key)) {
+                this.validateForm2.controls[key].markAsDirty();
+            }
+        }
+        const loginUrl =  'http://odfgqiz57.bkt.clouddn.com/JSON/world.json'; // @登录url
+        console.log(value);
+        // @登录方法，不能忘记发起订阅subscribe()！
+        this.loginService.login(loginUrl, value['username2'], value['password2']).subscribe(
+            (data) => {
+                console.log('@@登录请求返回的数据');
+                console.log(data);
+            },
+            (error) => {
+                console.log('@@登录请求失败');
+                console.log(error);
+            }
+        );
+    }
+
+
     // @重置表单
     resetForm($event: MouseEvent) {
         $event.preventDefault();
+        console.log('@@重置表单');
         this.validateForm.reset();
         for (const key in this.validateForm.controls) {
 
@@ -208,7 +240,7 @@ export class LoginComponent implements OnInit {
     userNameAsyncValidator = (control: FormControl): any => {
         return Observable.create(function (observer) {
             setTimeout(() => {
-                if (control.value === 'JasonWood') {
+                if (control.value === 'admin') {
                     observer.next({ 'error': true, 'duplicated': true });
                 } else {
                     observer.next(null);
@@ -271,7 +303,6 @@ export class LoginComponent implements OnInit {
 
     /************************************************************/
 
-
     // @视差移动函数
     init() {
         console.log(this.el.nativeElement);
@@ -295,7 +326,6 @@ export class LoginComponent implements OnInit {
         this.placeImg();
         this.attachMouseEvent();
     }
-
     // @设置偏移量
     setRateWH() {
         const window_width = document.body.clientWidth;
